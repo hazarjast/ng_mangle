@@ -1,0 +1,22 @@
+
+Hello,
+
+What you have here is netgraph node for mangling all outgoing (by default)
+IPv4 packets flowing through specified ethernet interface. To help you start
+with it a shell script go_mangle.sh is attached. You can mangle with ttl and
+tos fields in every IPv4 header. This is basically all it is supposed to do.
+
+For more info about ng_mangle go to:
+
+	http://venus.wsb-nlu.edu.pl/~dlupinsk/ng_mangle/
+
+
+If you need more sophisticated way to deal with ip packets and not arbitrary
+all of them chosen on per interface basis. You may be lucky as new idea is
+about to be given a birth. ;) I'll leave a note if/when it is ready on the 
+page above.
+
+
+						Thanks,
+						Dominik Lupinski
+
