@@ -180,42 +180,27 @@ ng_mangle_rcvmsg(node_p node, item_p item, hook_p hook)
 static struct mbuf *
 ng_mangle_mangle(struct mbuf *mint, struct hookinfo *hi)
 {
-	struct ether_header *ethdr;
-	/* copy center */
-	struct ether_header ethdr_saved;
+	/* Headers */
+	struct ether_header *eh;
 	struct ip *ip;
-
-
-	/* extra sanity check */
-	if((mint->m_len < sizeof(*ethdr)) 
-	&& (mint = m_pullup(mint, sizeof(*ethdr))) == NULL) {
+	
+	/* Length Check for headers */
+	const uint8_t header_len = sizeof(*eh) + sizeof(*ip);
+	if((mint->m_len < header_len) 
+	&& (mint = m_pullup(mint, header_len)) == NULL) {
 		return(NULL);
 	}
-	ethdr = mtod(mint, struct ether_header *);
 	
-	if(ntohs(ethdr->ether_type) != ETHERTYPE_IP) {
-		/* Oops! We are not invited. */
+	/* Ethernet header */
+	eh = mtod(mint, struct ether_header *);
+	
+	/* IPv4 Only */
+	if(ntohs(eh->ether_type) != ETHERTYPE_IP) {
 		return(mint);
-	}
+	} 
 	
-	/* Yup, since now we have only IPv4 packets to deal with... */
-
-	/*
-	 * We need to strip ethernet header off to proceed with ip packets
-	 * but later on we will need that part to build the frame back, so 
-	 * we copy that stripped part to local structure to have it for
-	 * restoring. I've stolen this idea from bridge.c written by 
-	 * Luigi Rizzo.
-	 */
-	bcopy(ethdr, &ethdr_saved, sizeof(struct ether_header));
-	m_adj(mint, sizeof(struct ether_header));
-
-	/* extra sanity check */
-	if((mint->m_len < sizeof(*ip)) 
-	&& (mint = m_pullup(mint, sizeof(*ip))) == NULL) {
-		return(NULL);
-	}
-	ip = mtod(mint, struct ip *);
+	/* IP header */
+	ip = (struct ip *)(eh + 1);
 
 	/* Here is TTL */
 	ip->ip_ttl = hi->ttl;
@@ -232,20 +217,7 @@ ng_mangle_mangle(struct mbuf *mint, struct hookinfo *hi)
 	 */
 	ip->ip_sum = 0;
 	ip->ip_sum = in_cksum_hdr(ip);
-
-
-	/* RESTORING the frame */
-	M_PREPEND(mint, sizeof(struct ether_header), M_DONTWAIT);
-	if(mint == NULL) {
-		/* Do nothing at this time, we'll handle it outside */
-		/* return(mint); */
-		return(NULL);
-	}
-	if(ethdr != mtod(mint, struct ether_header *)) {
-		bcopy(&ethdr_saved, mtod(mint, struct ether_header *), sizeof(struct ether_header));
-	}
 	
-
 	return(mint);
 }
 
