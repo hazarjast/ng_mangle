@@ -122,19 +122,17 @@ static ng_disconnect_t	ng_mangle_disconnect;
  * Mangle node type
  */
 static struct ng_type mangle_struct = {
-	NG_ABI_VERSION,
-	NG_MANGLE_NODE_TYPE,
-	NULL,			/* modeventhand_t	*/
-	ng_mangle_constr,	/* ng_constructor_t	*/
-	ng_mangle_rcvmsg,	/* ng_rcvmsg_t		*/
-	NULL,			/* ng_close_t		*/
-	ng_mangle_shutdown,	/* ng_shutdown_t	*/
-	ng_mangle_newhook,	/* ng_newhook_t		*/
-	NULL,			/* ng_findhook_t	*/
-	NULL,			/* ng_connect_t		*/
-	ng_mangle_rcvdata,	/* ng_rcvdata_t		*/
-	ng_mangle_disconnect,	/* ng_disconnect_t	*/
-	ng_mangle_cmdlist,	/* ng_cmdlist		*/
+	.version =	NG_ABI_VERSION,
+	.name =		NG_MANGLE_NODE_TYPE,
+	.constructor =	ng_mangle_constr,
+	.rcvmsg =	ng_mangle_rcvmsg,
+	.shutdown =	ng_mangle_shutdown,
+	.newhook =	ng_mangle_newhook,
+/*	.findhook =	ng_xxx_findhook, 	*/
+/*	.connect =	ng_xxx_connect,		*/
+	.rcvdata =	ng_mangle_rcvdata,
+	.disconnect =	ng_mangle_disconnect,
+	.cmdlist =	ng_mangle_cmdlist,
 };
 
 
