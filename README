@@ -1,9 +1,9 @@
-This fork exists specifically for lazy PFSense users like myself who want 
-the ability to modify TTL and TOS IP headers on specific interfaces and 
-don't want to mess with spinning up FreeBSD VMs to compile the module. 
-I have simply added a 'compiled' top level folder which contains compiled
-kernel modules for PFSense versions 2.4.3_1 (N-1) and 2.4.4 which is the 
-current, stable release as of this writing.
+This fork of ng_mangle exists specifically for lazy PFSense users like 
+myself who want the ability to modify TTL and TOS IP headers on specific 
+interfaces and don't want to mess with spinning up FreeBSD VMs to compile 
+the module. I have simply added a 'compiled' top level folder which contains 
+compiled kernel modules for PFSense versions 2.4.3_1 (N-1) and 2.4.4 (N 
+release as of this writing).
 
 I have also created a folder called 'pfsense_scripts' which contain ngctl 
 shell scripts which other PFSense users may find useful. They can be used 
