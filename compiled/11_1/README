@@ -1,0 +1,1 @@
+This is the compiled kernel module for FreeBSD 11.1. It should be placed in '/boot/kernel' and loaded with 'kldload'.
