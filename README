@@ -16,5 +16,7 @@ For proper info about ng_mangle go to:
 
 
 Thanks to Dominik Lupinski for his creation of ng_mangle. If I ever meet you 
-in person I owe you a beer :)
+in person I owe you a beer!
 
+***NOTE*** If you use the example pfSense script, be sure to set the executable
+bit for it (ex. 'chmod +x ng_mangle.sh'). Else it will only be a txt file :)
